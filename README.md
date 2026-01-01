@@ -30,6 +30,7 @@ kind version
 
 ## Files Structure
 
+```powershell
 php-mysql-innodb-ha-poc/
 ├─ README.md                     # Tutorial & proof-of-concept guide
 ├─ kind/
@@ -43,6 +44,7 @@ php-mysql-innodb-ha-poc/
    ├─ 21-mysql-innodbcluster.yaml# InnoDB Cluster (3 instances)
    ├─ 30-php-db-secret.yaml      # PHP DB env vars
    └─ 31-php-deploy-service.yaml # PHP Deployment + NodePort
+```
 
 ## Setup Clusters
 
