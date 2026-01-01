@@ -1,0 +1,10 @@
+apiVersion: mysql.oracle.com/v2
+kind: InnoDBCluster
+metadata:
+  name: mycluster
+spec:
+  secretName: mycluster-secret
+  instances: 3
+  tlsUseSelfSigned: true
+  router:
+    instances: 1

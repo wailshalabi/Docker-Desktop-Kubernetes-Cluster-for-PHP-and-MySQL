@@ -1,0 +1,12 @@
+# --- OS / Editor ---
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# --- Kubernetes / Docker artifacts ---
+artifacts/
+*.tar
+
+# --- kind / kubectl temp ---
+.kube/
