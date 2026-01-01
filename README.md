@@ -66,23 +66,6 @@ Verify
 kubectl get pods -n mysql-operator
 ```
 
-### 4) Deploy everything
-
-```powershell
-kubectl apply -f k8s\00-namespace.yaml
-kubectl apply -n poc -f k8s\20-mysql-innodb-secret.yaml
-kubectl apply -n poc -f k8s\21-mysql-innodbcluster.yaml
-kubectl apply -n poc -f k8s\30-php-db-secret.yaml
-kubectl apply -n poc -f k8s\31-php-deploy-service.yaml
-```
-
-Verify
-
-```powershell
-kubectl get pods -n poc
-kubectl get svc -n poc
-```
-
 ## Docker image artifacts
 
 This project stores exported Docker images in:
@@ -107,6 +90,35 @@ Then delete the stuck pods so they restart and use the now-available image autom
 
     kubectl delete pod -n poc mycluster-0 mycluster-1 mycluster-2
     kubectl get pods -n poc -w
+
+Example for MySQL Router offline mode
+
+    docker pull container-registry.oracle.com/mysql/community-router:9.5.0
+    docker save -o artifacts\images\mysql-router-image.tar container-registry.oracle.com/mysql/community-router:9.5.0
+    kind load image-archive artifacts\images\mysql-router-image.tar --name ha-test
+
+Then delete the stuck pods so they restart and use the now-available image automatically
+
+Verify images exist INSIDE kind nodes
+
+    docker exec -it ha-test-control-plane crictl images | findstr mysql
+
+### 4) Deploy everything
+
+```powershell
+kubectl apply -f k8s\00-namespace.yaml
+kubectl apply -n poc -f k8s\20-mysql-innodb-secret.yaml
+kubectl apply -n poc -f k8s\21-mysql-innodbcluster.yaml
+kubectl apply -n poc -f k8s\30-php-db-secret.yaml
+kubectl apply -n poc -f k8s\31-php-deploy-service.yaml
+```
+
+Verify
+
+```powershell
+kubectl get pods -n poc
+kubectl get svc -n poc
+```
 
 ## MySQL Operator installation (offline)
 
