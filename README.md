@@ -4,7 +4,7 @@
 ![Kubernetes](https://img.shields.io/badge/Kubernetes-kind-blue?logo=kubernetes)
 ![MySQL](https://img.shields.io/badge/MySQL-InnoDB%20Cluster-orange?logo=mysql)
 ![PHP](https://img.shields.io/badge/PHP-8.x-purple?logo=php)
-![License](https://img.shields.io/github/license/wailshalabi Docker-Desktop-Kubernetes-Cluster-for-PHP-and-MySQL)
+![License](https://img.shields.io/github/license/wailshalabi/Docker-Desktop-Kubernetes-Cluster-for-PHP-and-MySQL)
 
 This project demonstrates:
 - PHP API running with 3 replicas (high availability at app layer)
