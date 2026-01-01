@@ -5,8 +5,7 @@ Thumbs.db
 .idea/
 
 # --- Kubernetes / Docker artifacts ---
-artifacts/
-*.tar
+artifacts/images/*.tar
 
 # --- kind / kubectl temp ---
 .kube/
