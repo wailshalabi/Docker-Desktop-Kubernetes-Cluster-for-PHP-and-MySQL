@@ -156,5 +156,68 @@ kind delete cluster --name ha-test
 kind get clusters
 ```
 
+### Trouble Shooting
+
+### Stabilize the API server (fix TLS handshake timeouts)
+
+    docker restart ha-test-control-plane
+    kubectl get nodes
+
+### Restart router by deletion
+
+    kubectl -n poc delete pod -l component=mysqlrouter
+
+### Get pods and Volumes
+
+    kubectl -n poc get pods
+    kubectl -n poc get pvc
+
+### Delete MySQL Pod
+
+    kubectl -n poc delete pod mysql-0
+
+### Restart php
+
+    kubectl -n poc rollout restart deployment php-ha
+
+### Step by step installation after donloading the images locally
+
+    kind delete cluster --name ha-test
+    kind create cluster --name ha-test --config kind\kind-ha.yaml
+    kind export kubeconfig --name ha-test
+
+    kind load image-archive artifacts\images\mysql-innodb-image.tar --name ha-test
+    kind load image-archive artifacts\images\mysql-router-image.tar --name ha-test
+    kind load image-archive artifacts\images\php-ha_1.0.tar --name ha-test
+
+    kubectl apply -f k8s\mysql-operator\deploy-crds.yaml
+    kubectl apply -f k8s\mysql-operator\deploy-operator.yaml
+
+    kubectl apply -f k8s\00-namespace.yaml
+    kubectl -n poc apply -f k8s\20-mysql-innodb-secret.yaml
+    kubectl -n poc apply -f k8s\21-mysql-innodbcluster.yaml
+    kubectl -n poc apply -f k8s\30-php-db-secret.yaml
+    kubectl -n poc apply -f k8s\31-php-deploy-service.yaml
+
+### Simple setup
+
+This setup is designed to be stable on Windows / Docker Desktop:
+- No MySQL Operator
+- No MySQL Router
+- Persistent MySQL storage (PVC)
+- Minimal pods: 1x MySQL + 1x PHP
+- Works with `kubectl` on `docker-desktop` context
+
+    kubectl apply -f k8s-simple\00-namespace.yaml
+    kubectl apply -f k8s-simple\10-mysql-persistent.yaml
+    kind load image-archive artifacts\images\php-ha_1.0.tar --name desktop
+    kubectl apply -f k8s-simple\20-php.yaml
+    kubectl -n poc port-forward svc/php-ha-nodeport 30080:80
+
+Open:
+
+    http://localhost:30080/
+    http://localhost:30080/db
+
 ## Security disclaimer
 This project is for educational purposes only, do not use this implementation directly in production Real systems.
