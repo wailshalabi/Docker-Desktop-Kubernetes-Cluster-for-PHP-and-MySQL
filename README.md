@@ -208,6 +208,8 @@ This setup is designed to be stable on Windows / Docker Desktop:
 - Minimal pods: 1x MySQL + 1x PHP
 - Works with `kubectl` on `docker-desktop` context
 
+Step by step using a local image
+
     kubectl apply -f k8s-simple\00-namespace.yaml
     kubectl apply -f k8s-simple\10-mysql-persistent.yaml
     kind load image-archive artifacts\images\php-ha_1.0.tar --name desktop
